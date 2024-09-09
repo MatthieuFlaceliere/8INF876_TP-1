@@ -11,7 +11,23 @@
   </head>
   <body>
     <h1>
-      It Works!
+      IMC Calculator
     </h1>
+
+    <form action="/imc" method="post">
+      <label for="weight">
+        Taille:
+      </label>
+      <input type="text" name="weight" id="weight" />
+
+      <label for="height">
+        Poids:
+      </label>
+      <input type="text" name="height" id="height" />
+
+      <button type="submit">
+        Calculate
+      </button>
+    </form>
   </body>
 </html>
