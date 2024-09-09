@@ -14,20 +14,28 @@
       IMC Calculator
     </h1>
 
-    <form action="/imc" method="post">
-      <label for="weight">
+    <form id="imcForm" action="/imc" method="post">
+      <label for="height">
         Taille:
       </label>
-      <input type="text" name="weight" id="weight" />
-
-      <label for="height">
+      <input type="text" name="height" id="height" />
+      
+      <label for="weight">
         Poids:
       </label>
-      <input type="text" name="height" id="height" />
-
+      <input type="text" name="weight" id="weight" />
+      
       <button type="submit">
         Calculate
       </button>
+      {{ csrfField() }}
     </form>
+
+    @if (imc)
+      <p>
+        Voici votre IMC: {{ imc }}
+      </p>
+    @endif
+
   </body>
 </html>
