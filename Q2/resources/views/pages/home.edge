@@ -1,41 +1,64 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>
-      AdonisJS - A fully featured web framework for Node.js
-    </title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <title>
+    AdonisJS - A fully featured web framework for Node.js
+  </title>
+
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body>
+  <main class="container">
     <h1>
       IMC Calculator
     </h1>
 
     <form id="imcForm" action="/imc" method="post">
-      <label for="height">
-        Taille:
-      </label>
-      <input type="text" name="height" id="height" />
-      
-      <label for="weight">
-        Poids:
-      </label>
-      <input type="text" name="weight" id="weight" />
-      
+      <div class="grid">
+        <div>
+          <label for="height">
+            Taille (en m):
+          </label>
+          <input type="text" name="height" id="height" placeholder="Ex: 1.75"
+            aria-invalid="{{ flashMessages.has('errors.height') ? 'true': '' }}" />
+          @if (flashMessages.has('errors.height'))
+          <small id="invalid-helper">
+            {{ flashMessages.get('errors.height')[0] }}
+          </small>
+          @endif
+        </div>
+        <div>
+          <label for="weight">
+            Poids (en kg):
+          </label>
+          <input type="text" name="weight" id="weight" placeholder="Ex: 75"
+            aria-invalid="{{ flashMessages.has('errors.weight') ? 'true': '' }}" />
+          @if (flashMessages.has('errors.weight'))
+          <small id="invalid-helper">
+            {{ flashMessages.get('errors.weight')[0] }}
+          </small>
+          @endif
+        </div>
+      </div>
+
       <button type="submit">
-        Calculate
+        Calculer
       </button>
       {{ csrfField() }}
     </form>
 
     @if (imc)
-      <p>
-        Voici votre IMC: {{ imc }}
-      </p>
+    <h3>
+      Voici votre IMC: {{ imc }}
+    </h3>
     @endif
 
-  </body>
+  </main>
+</body>
+
 </html>
