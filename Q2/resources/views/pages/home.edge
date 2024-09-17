@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,16 +7,13 @@
   <title>
     AdonisJS - A fully featured web framework for Node.js
   </title>
-
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-
 <body>
   <main class="container">
     <h1>
       IMC Calculator
     </h1>
-
     <form id="imcForm" action="/imc" method="post">
       <div class="grid">
         <div>
@@ -45,20 +41,39 @@
           @endif
         </div>
       </div>
-
       <button type="submit">
         Calculer
       </button>
       {{ csrfField() }}
     </form>
-
     @if (imc)
     <h3>
       Voici votre IMC: {{ imc }}
     </h3>
     @endif
 
+    <h2>Historique des IMC</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Poids (kg)</th>
+          <th>IMC</th>
+          <th>Date de création</th>
+          <th>Date de mise à jour</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each(imcRecord in imcRecords)
+        <tr>
+          <td>{{ imcRecord.weight }}</td>
+          <td>{{ imcRecord.imc }}</td>
+          <td>{{ new Date(imcRecord.createdAt).toLocaleString() }}</td>
+          <td>{{ new Date(imcRecord.updatedAt).toLocaleString() }}</td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
   </main>
 </body>
-
 </html>

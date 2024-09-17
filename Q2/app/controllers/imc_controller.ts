@@ -6,6 +6,13 @@ export default class ImcController {
   public async calculate({ view, request }: HttpContext) {
     let { weight, height } = await request.validateUsing(imcValidator)
 
-    return view.render('pages/home', { imc: IMCServices.calculate(weight, height) })
+    // Calculer et enregistrer l'IMC
+    const imcRecord = await IMCServices.calculateAndSave(weight, height)
+
+    // Récupérer tous les enregistrements d'IMC
+    const imcRecords = await IMCServices.getAllImcRecords()
+
+    // Afficher le résultat
+    return view.render('pages/home', { imc: imcRecord.imc, imcRecords })
   }
 }
