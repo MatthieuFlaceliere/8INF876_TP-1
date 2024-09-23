@@ -3,13 +3,16 @@ package main.server;
 import main.server.utils.HttpRequest;
 import main.server.utils.HttpStatusCode;
 import main.server.utils.RequestMethod;
+import main.server.utils.ResourceManager;
 
 import java.io.*;
 import java.net.*;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 public class Server {
     private static final Logger logger = Logger.getLogger(Server.class.getName());
+    private static final ResourceManager resourceManager = new ResourceManager("src/main/server/public");
 
     private ServerSocket serverSocket;
 
@@ -59,24 +62,26 @@ public class Server {
         try {
             httpRequest.parseRequest(inputStream);
         } catch (Exception e) {
-            return response("<h1>Internal Server Error</h1>", HttpStatusCode.INTERNAL_SERVER_ERROR);
+            return response(resourceManager.getErrorPath(HttpStatusCode.INTERNAL_SERVER_ERROR), HttpStatusCode.INTERNAL_SERVER_ERROR);
         }
 
         if (!httpRequest.getMethod().equals(RequestMethod.GET)) {
-            return response("<h1>Method Not Allowed</h1>", HttpStatusCode.METHOD_NOT_ALLOWED);
+            return response(resourceManager.getErrorPath(HttpStatusCode.METHOD_NOT_ALLOWED), HttpStatusCode.METHOD_NOT_ALLOWED);
         }
         logger.info(httpRequest.getUri());
-        return response("<h1>Hello World!</h1>", HttpStatusCode.OK);
+        return response(resourceManager.getResource(httpRequest.getUri()), HttpStatusCode.OK);
     }
 
-    public byte[] response(String html, HttpStatusCode statusCode) {
+    public byte[] response(Path htmlFile, HttpStatusCode statusCode) {
         final String CRLF = "\r\n"; // 13, 10
+
+        String content = resourceManager.getString(htmlFile);
 
         String response =
                 "HTTP/1.1 " + statusCode + CRLF +
-                        "Content-Length: " + html.getBytes().length + CRLF +
+                        "Content-Length: " + content.length() + CRLF +
                         CRLF +
-                        html +
+                        content +
                         CRLF + CRLF;
 
         return response.getBytes();

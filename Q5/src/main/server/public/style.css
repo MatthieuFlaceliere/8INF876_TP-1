@@ -1,0 +1,22 @@
+html {
+    background: #FAF7F0;
+    color: #4A4947;
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    font-weight: bold;
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    color: inherit;
+    font-weight: bold;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    border-radius: 0;
+    cursor: pointer;
+}
