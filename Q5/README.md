@@ -7,8 +7,7 @@ Ce projet consiste en un client et un serveur HTTP simples implémentés en Java
 ## Fonctionnalités
 
 - **Client HTTP** :
-  - Se connecte à un serveur local et récupère une page HTML spécifiée en utilisant des sockets.
-  - Récupère le contenu HTML de n'importe quel site web en utilisant des sockets.
+  - Récupère le contenu HTML de n'importe quel site web.
   - Affiche le contenu HTML récupéré sur la sortie standard.
   - Enregistre le contenu HTML récupéré dans un fichier local.
 
