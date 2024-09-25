@@ -25,7 +25,7 @@ Ce projet consiste en un client et un serveur HTTP simples implémentés en Java
 - Faites un clic droit sur le fichier Server.java et sélectionnez "Run" pour exécuter le serveur.
 ![Execution du serveur](./README_content/Server.gif)
 ### Exécution du Client
--Ouvrez le projet dans votre IDE.
+- Ouvrez le projet dans votre IDE.
 - Naviguez jusqu'au fichier Client.java situé dans src/main/client/.
 - Faites un clic droit sur le fichier Client.java et sélectionnez "Run" pour exécuter le client.
   ![Execution du client](./README_content/Client.gif)
