@@ -4,7 +4,6 @@ import main.server.utils.*;
 
 import java.io.*;
 import java.net.*;
-import java.nio.file.Path;
 import java.util.logging.Logger;
 
 public class Server {
@@ -47,9 +46,7 @@ public class Server {
                 if (outputStream != null) {
                     outputStream.close();
                 }
-                if (serverSocket != null) {
-                    serverSocket.close();
-                }
+                serverSocket.close();
             } catch (IOException e) {
                 logger.warning("Error while closing the streams: " + e.getMessage());
             }
