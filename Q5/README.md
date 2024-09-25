@@ -2,7 +2,7 @@
 
 ## Description
 
-Ce projet consiste en un client et un serveur HTTP simples implémentés en Java. Le client peut se connecter à un serveur local ou récupérer le contenu HTML de n'importe quel site web. Le serveur répond aux requêtes HTTP GET avec la page HTML demandée.
+Ce projet consiste en un client et un serveur HTTP simples implémentés en Java. Le client peut se connecter à un serveur pour récupérer le contenu HTML de n'importe quel site web. Le serveur répond aux requêtes HTTP GET avec la page HTML demandée.
 
 ## Fonctionnalités
 
