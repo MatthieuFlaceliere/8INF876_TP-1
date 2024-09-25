@@ -1,9 +1,6 @@
 package main.server;
 
-import main.server.utils.HttpRequest;
-import main.server.utils.HttpStatusCode;
-import main.server.utils.RequestMethod;
-import main.server.utils.ResourceManager;
+import main.server.utils.*;
 
 import java.io.*;
 import java.net.*;
@@ -12,7 +9,6 @@ import java.util.logging.Logger;
 
 public class Server {
     private static final Logger logger = Logger.getLogger(Server.class.getName());
-    private static final ResourceManager resourceManager = new ResourceManager("src/main/server/public");
 
     private ServerSocket serverSocket;
 
@@ -34,7 +30,10 @@ public class Server {
                 inputStream = socket.getInputStream();
                 outputStream = socket.getOutputStream();
 
-                outputStream.write(processRequest(inputStream));
+                HttpRequest httpRequest = new HttpRequest();
+                Response response = httpRequest.processRequest(inputStream);
+
+                outputStream.write(response.send());
                 outputStream.close();
                 inputStream.close();
             }
@@ -55,36 +54,6 @@ public class Server {
                 logger.warning("Error while closing the streams: " + e.getMessage());
             }
         }
-    }
-
-    public byte[] processRequest(InputStream inputStream) {
-        HttpRequest httpRequest = new HttpRequest();
-        try {
-            httpRequest.parseRequest(inputStream);
-        } catch (Exception e) {
-            return response(resourceManager.getErrorPath(HttpStatusCode.INTERNAL_SERVER_ERROR), HttpStatusCode.INTERNAL_SERVER_ERROR);
-        }
-
-        if (!httpRequest.getMethod().equals(RequestMethod.GET)) {
-            return response(resourceManager.getErrorPath(HttpStatusCode.METHOD_NOT_ALLOWED), HttpStatusCode.METHOD_NOT_ALLOWED);
-        }
-        logger.info(httpRequest.getUri());
-        return response(resourceManager.getResource(httpRequest.getUri()), HttpStatusCode.OK);
-    }
-
-    public byte[] response(Path htmlFile, HttpStatusCode statusCode) {
-        final String CRLF = "\r\n"; // 13, 10
-
-        String content = resourceManager.getString(htmlFile);
-
-        String response =
-                "HTTP/1.1 " + statusCode + CRLF +
-                        "Content-Length: " + content.length() + CRLF +
-                        CRLF +
-                        content +
-                        CRLF + CRLF;
-
-        return response.getBytes();
     }
 
     public static void main(String[] args) {

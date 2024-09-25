@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.HashMap;
 
 public class HttpRequest {
+    private static final ResourceManager resourceManager = new ResourceManager("src/main/server/public");
+
     private RequestMethod method;
     private String uri;
     private String httpVersion;
@@ -11,6 +13,22 @@ public class HttpRequest {
 
     public HttpRequest() {
         requestHeaders = new HashMap<>();
+    }
+
+    public Response processRequest(InputStream inputStream) {
+        try {
+            parseRequest(inputStream);
+        } catch (Exception e) {
+            return new Response().setStatusCode(HttpStatusCode.INTERNAL_SERVER_ERROR);
+        }
+
+        if (!methodIs(RequestMethod.GET)) {
+            return new Response().setStatusCode(HttpStatusCode.METHOD_NOT_ALLOWED);
+        }
+
+        return new Response()
+                .setStatusCode(HttpStatusCode.OK)
+                .setBody(resourceManager.getResource(uri));
     }
 
     public void parseRequest(InputStream inputStream) throws IOException {
@@ -46,20 +64,8 @@ public class HttpRequest {
         requestHeaders.put(parts[0], parts[1]);
     }
 
-    public RequestMethod getMethod() {
-        return method;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public String getHttpVersion() {
-        return httpVersion;
-    }
-
-    public String getHeader(String key) {
-        return requestHeaders.get(key);
+    public boolean methodIs(RequestMethod requestMethod) {
+        return method.equals(requestMethod);
     }
 }
 

@@ -22,8 +22,9 @@ public class ResourceManager {
         return Path.of(rootPath);
     }
 
-    public Path getErrorPath(HttpStatusCode error) {
-        return Path.of(errorPath.toString(), error.htmlFile);
+    public byte[] getErrorPage(HttpStatusCode error) {
+        Path errorPage = Path.of(errorPath.toString(), error.htmlFile);
+        return getString(errorPage).getBytes();
     }
 
     public Path getResource(String name) {
